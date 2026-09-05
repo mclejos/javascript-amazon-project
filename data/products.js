@@ -656,5 +656,35 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "f6d4a9c1-6e2b-4b4e-9f45-2a1c7d8e5b30",
+    image: "images/products/backpack.jpg",
+    name: "Everyday Canvas Backpack",
+    rating: {
+      stars: 4.5,
+      count: 142
+    },
+    priceCents: 3299,
+    keywords: [
+      "backpacks",
+      "bags",
+      "travel"
+    ]
+  },
+  {
+    id: "c8b2e7f4-1a96-4d3c-85b0-9e6f2a7d4c18",
+    image: "images/products/umbrella.jpg",
+    name: "Compact Travel Umbrella",
+    rating: {
+      stars: 4,
+      count: 89
+    },
+    priceCents: 1599,
+    keywords: [
+      "umbrellas",
+      "rain",
+      "travel"
+    ]
   }
 ];
