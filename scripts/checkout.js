@@ -1,8 +1,22 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import {
+  cart,
+  removeFromCart,
+  updateCartItemQuantity
+} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
 let cartSummaryHTML = '';
+
+function updateCartQuantity() {
+  let quantity = 0;
+
+  cart.forEach((cartItem) => {
+    quantity += cartItem.quantity;
+  });
+
+  document.querySelector('.js-cart-quantity').innerHTML = `${quantity} items`;
+}
 
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
@@ -36,8 +50,17 @@ cart.forEach((cartItem) => {
           <span>
             Quantity: <span class="quantity-label">${cartItem.quantity}</span>
           </span>
-          <span class="update-quantity-link link-primary">
+          <span class="update-quantity-link link-primary js-update-link"
+            data-product-id="${matchingProduct.id}">
             Update
+          </span>
+          <span class="quantity-edit js-quantity-edit-${matchingProduct.id}">
+            <input class="quantity-input js-quantity-input-${matchingProduct.id}"
+              type="number" min="1" value="${cartItem.quantity}">
+            <button class="save-quantity-button js-save-link"
+              data-product-id="${matchingProduct.id}">
+              Save
+            </button>
           </span>
           <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
             Delete
@@ -97,6 +120,8 @@ cart.forEach((cartItem) => {
 document.querySelector('.js-order-summary')
   .innerHTML = cartSummaryHTML;
 
+updateCartQuantity();
+
 document.querySelectorAll('.js-delete-link')
   .forEach((link)=>{
     link.addEventListener('click', () => {
@@ -108,6 +133,46 @@ document.querySelectorAll('.js-delete-link')
       );
 
       container.remove();
+      updateCartQuantity();
+    });
+  });
+
+document.querySelectorAll('.js-update-link')
+  .forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+      const editControls = document.querySelector(
+        `.js-quantity-edit-${productId}`
+      );
+
+      link.style.display = 'none';
+      editControls.classList.add('quantity-edit-visible');
+      editControls.querySelector('input').focus();
+    });
+  });
+
+document.querySelectorAll('.js-save-link')
+  .forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      const editControls = document.querySelector(
+        `.js-quantity-edit-${productId}`
+      );
+      const input = editControls.querySelector('input');
+      const quantity = Number(input.value);
+
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        input.focus();
+        return;
+      }
+
+      updateCartItemQuantity(productId, quantity);
+      editControls.parentElement.querySelector('.quantity-label').innerHTML = quantity;
+      editControls.classList.remove('quantity-edit-visible');
+      document.querySelector(
+        `.js-update-link[data-product-id="${productId}"]`
+      ).style.display = '';
+      updateCartQuantity();
     });
   });
   

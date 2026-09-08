@@ -119,6 +119,26 @@
   margin-left: 3px;
 }
 
+.quantity-edit {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.quantity-edit-visible {
+  display: inline-flex;
+}
+
+.quantity-input {
+  width: 45px;
+}
+
+.save-quantity-button {
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
 @media (max-width: 1000px) {
   .delivery-options {
     /* grid-column: 1 means this element will be placed
