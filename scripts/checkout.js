@@ -139,6 +139,7 @@ document.querySelector('.js-order-summary')
 
 updateCartQuantity();
 
+
 document.querySelectorAll('.js-delete-link')
   .forEach((link)=>{
     link.addEventListener('click', () => {
